@@ -1,0 +1,67 @@
+{%extends "index.html" %} {%block css%}
+<link rel="stylesheet" href="{{url_for('static', path='/css/home.css')}}" />
+{%endblock%} {%block content%}
+<div class="home">
+  <form class="top-buttons">
+    <button
+      formmethod="get"
+      formaction="/config"
+      class="btn-term"
+      id="config-btn"
+    >
+      Config
+    </button>
+    <button
+      formmethod="post"
+      formaction="/home/clear_chat"
+      class="btn-term logout"
+      id="logout-btn"
+    >
+      Clear Chat
+    </button>
+    <button
+      formmethod="post"
+      formaction="/auth/logout"
+      class="btn-term logout"
+      id="logout-btn"
+    >
+      Logout
+    </button>
+  </form>
+  <div class="chat-screen">
+    <div class="message" id="messages">
+      {% for message in history %}
+      <div
+        class="message-box {%if message.role=='user'%}message-right{%endif%}"
+      >
+        <p class="role">{{message.role}}</p>
+        <p class="content">{{message.content | safe}}</p>
+      </div>
+      {%endfor%}
+    </div>
+    <form class="message-input" method="post" action="/home/chat">
+      <div class="input-field">
+        <label>>>></label>
+        <input
+          type="text"
+          class="t-input t-input--grow"
+          id="message-input"
+          name="message"
+          autofocus
+        />
+      </div>
+      <button class="send-btn" id="send-btn">
+        Send!
+        <span id="message-loader" class="message-loader hidden">
+          <div class="message-dot"></div>
+          <div class="message-dot"></div>
+          <div class="message-dot"></div>
+        </span>
+      </button>
+    </form>
+  </div>
+</div>
+
+{%endblock%} {%block js%}
+<script src="{{url_for('static', path='/js/home.js')}}" type="module"></script>
+{%endblock%}

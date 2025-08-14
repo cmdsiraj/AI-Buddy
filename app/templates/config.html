@@ -1,0 +1,59 @@
+{%extends "index.html"%} {%block css %}
+<link rel="stylesheet" href="{{url_for('static', path='/css/config.css')}}" />
+{%endblock%} {%block content%}
+<div class="config-page">
+  <form class="input-form" method="post" action="/config/save">
+    <button
+      class="back-btn"
+      id="back-btn"
+      title="Back"
+      formmethod="get"
+      formaction="/home/chat"
+    >
+      <span class="material-symbols-outlined"> arrow_back </span>
+    </button>
+    <h2>$Setup Your Agent</h2>
+    <div class="input-area">
+      <label for="role-input">>>>Name</label>
+      <input
+        name="name"
+        id="name-input"
+        type="text"
+        value="{{values.name or ''}}"
+        autofocus
+      />
+    </div>
+    <div class="input-area">
+      <label for="role-input">>>>Role</label>
+      <textarea name="role" id="role-input" rows="6">{{values.role}}</textarea>
+    </div>
+    <div class="input-area">
+      <label for="goal-input">>>>Goal</label>
+      <textarea name="goal" id="goal-input" rows="6">{{values.goal}}</textarea>
+    </div>
+    <div class="input-area">
+      <label for="backstory-input">>>>Back Story</label>
+      <textarea name="backstory" id="backstory-input" rows="6">
+{{values.backstory}}
+</textarea
+      >
+    </div>
+    <div class="buttons">
+      <button class="btn-term" id="save-btn">Save</button>
+      <button
+        class="btn-term"
+        id="cancle-btn"
+        formmethod="get"
+        formaction="/home/chat"
+      >
+        Cancle
+      </button>
+    </div>
+  </form>
+</div>
+{%endblock%} {%block js%}
+<script
+  src="{{url_for('static', path='/js/config.js')}}"
+  type="module"
+></script>
+{%endblock%}

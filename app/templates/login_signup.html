@@ -1,0 +1,52 @@
+{%extends "index.html"%} {%block css %}
+<link rel="stylesheet" href="{{ url_for('static', path='/css/login.css')}}" />
+{%endblock%} {%block content%}
+<form method="post" action="{{action}}">
+  <div class="login theme-terminal crt-scanlines">
+    <h2 class="login-title">${{title}}</h2>
+
+    <div class="input-field">
+      <label>>>UserName:</label>
+      <input
+        type="text"
+        class="t-input t-input--grow"
+        id="nameInput"
+        autofocus
+        name="username"
+        value="{{values.username or ''}}"
+      />
+      <br />
+      {%if errors.username%}
+      <div style="color: #b00020">{{errors.username}}</div>
+      {%endif%}
+    </div>
+
+    <div class="input-field">
+      <label>>>Password:</label>
+      <input
+        type="password"
+        class="t-input t-input--grow"
+        id="passwordInput"
+        name="password"
+        value="{{values.password or ''}}"
+      />
+      <br />
+      {%if errors.password%}
+      <div style="color: #b00020">{{errors.password}}</div>
+      {%endif%}
+    </div>
+
+    <div id="error-output"></div>
+
+    <button id="login-btn" class="btn-term" type="submit">
+      Login <span class="material-symbols-outlined"> login </span>
+    </button>
+
+    {%if showSignup %}
+    <p class="signup-text">New? <a href="/auth/signup">SignUp</a></p>
+    {%endif%}
+  </div>
+</form>
+{%endblock%} {%block js%}
+<script type="module" src="{{url_for('static', path='/js/login.js')}}"></script>
+{%endblock%}

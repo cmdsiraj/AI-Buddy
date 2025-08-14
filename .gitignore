@@ -1,0 +1,52 @@
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.pdb
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+ENV/
+
+# Environment variables
+.env
+*.env
+
+# Pytest / testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VSCode / PyCharm settings
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Databases (SQLite)
+*.db
+*.sqlite3
+
+# Node modules (if frontend exists in project)
+node_modules/
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+
+# MacOS
+.DS_Store
+
+# Render / Deployment specific
+render.yaml

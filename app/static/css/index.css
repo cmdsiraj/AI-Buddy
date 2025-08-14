@@ -1,0 +1,196 @@
+body {
+  background-color: #000;
+  color: #0f0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+  margin: 0;
+}
+
+.theme-terminal {
+  --term-bg: #000;
+  --term-fg: #0f0;
+  --term-border: #0f0;
+  --term-scanline: rgba(0, 255, 0, 0.05);
+
+  background: var(--term-bg);
+  color: var(--term-fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+}
+
+.crt-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.crt-scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--term-scanline),
+    var(--term-scanline) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+.t-input {
+  background: transparent;
+  color: var(--term-fg, #0f0);
+  border: none;
+  outline: none;
+  font: inherit;
+
+  /* hide native caret; fake caret only on focus */
+  caret-color: transparent;
+  border-right: 0.8ch solid transparent; /* hidden by default */
+  animation: none; /* no blink by default */
+
+  padding: 0.2rem 0rem 0.2rem 0;
+}
+
+/* Show/blink caret only when focused */
+.t-input:focus {
+  border-right-color: currentColor;
+  animation: tCaretBlink 1s steps(1) infinite;
+}
+
+/* Grow width per character (JS updates --chars) */
+.t-input.t-input--grow {
+  --chars: 1;
+  width: calc(var(--chars) * 1ch);
+  min-width: 1ch;
+  max-width: 100%;
+  transition: width 0.06s linear;
+}
+
+/* Placeholder look */
+.t-input::placeholder {
+  color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+/* Kill native reveal/clear UI that breaks layout */
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-clear-button,
+input::-webkit-reveal-button,
+input::-ms-reveal,
+input::-ms-clear {
+  display: none !important;
+  appearance: none !important;
+}
+
+@keyframes tCaretBlink {
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+/* Terminal-style button utility (optional) */
+.btn-term {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: transparent;
+  color: var(--term-fg, #0f0);
+  border: 2px solid currentColor;
+  border-radius: 0;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.75rem 2rem;
+  box-shadow: 0 0 8px color-mix(in srgb, currentColor 30%, transparent);
+  transition: all 0.15s ease;
+}
+.btn-term:hover {
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, currentColor 60%, transparent),
+    inset 0 0 8px color-mix(in srgb, currentColor 40%, transparent);
+  transform: translateY(-1px);
+}
+.btn-term:active {
+  background: color-mix(in srgb, currentColor 25%, transparent);
+  transform: translateY(1px);
+  box-shadow: 0 0 6px color-mix(in srgb, currentColor 50%, transparent) inset;
+}
+
+/* --- Global Styles for the loaders --- */
+.hidden {
+  display: none !important;
+}
+
+/* --- App Loader (Full Page) --- */
+.app-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(15, 23, 42, 0.8); /* gray-900 with opacity */
+  z-index: 50;
+}
+
+.app-spinner {
+  width: 64px;
+  height: 64px;
+  border: 4px solid #e2e8f0; /* a light gray color */
+  border-top: 4px solid #6366f1; /* a vibrant blue color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Message Loader (Inline Dots) --- */
+.message-loader {
+  display: flex;
+  gap: 8px; /* space between dots */
+  align-items: center;
+}
+
+.message-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #0f0; /* same blue color */
+  border-radius: 50%;
+  animation: dotPulse 1.5s infinite;
+}
+
+.message-dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.message-dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+#error-output {
+  color: #f00;
+  margin-bottom: 0.8rem;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

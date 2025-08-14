@@ -1,0 +1,92 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin: 10% auto 0;
+  padding: 2rem;
+  text-align: left;
+
+  background: #000;
+  border: 2px solid #0f0;
+  border-radius: 6px;
+  box-shadow: 0 0 18px rgba(0, 255, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.login::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+  background-size: 100% 3px;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+.login-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-field > label {
+  font-weight: 600;
+  color: #0f0;
+  white-space: nowrap;
+}
+
+/* t-input styles are global in index.css now */
+
+#login-btn {
+  /* now uses .btn-term base from index.css */
+  /* Optional per-page overrides, if any */
+}
+
+.signup-text {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  text-align: center;
+  color: rgba(0, 255, 0, 0.8);
+  cursor: pointer;
+}
+.signup-text > a {
+  color: #0f0;
+  text-decoration: none;
+  position: relative;
+}
+.signup-text > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: #0f0;
+  transition: width 0.25s ease;
+}
+.signup-text > a:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 1020px) {
+  .login {
+    width: 60%;
+  }
+}
+@media (max-width: 560px) {
+  .login {
+    width: 88%;
+    padding: 1.25rem;
+  }
+}

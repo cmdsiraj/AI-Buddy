@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Siraj",
+    "skills": ["AI", "Agents"],
+    "city": "Tampa"
+  },
+  {
+    "name": "Bhanu",
+    "skills": ["Data", "SnowFlake"],
+    "city": "Pune"
+  },
+  {
+    "name": "Lakshmi",
+    "skills": ["Cooking", "Talking", "Beating"],
+    "city": "Tampa"
+  }
+]

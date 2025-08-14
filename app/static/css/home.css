@@ -1,0 +1,182 @@
+.home {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  color: #0f0;
+  font-family: monospace;
+}
+
+.top-buttons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.6rem;
+  padding-right: 2rem;
+  gap: 1rem;
+}
+
+.logout {
+  color: red;
+}
+
+.chat-screen {
+  position: absolute;
+  bottom: 4rem;
+  top: 4rem;
+  left: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.chat-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 255, 0, 0.05),
+    rgba(0, 255, 0, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+.message {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  overflow-y: auto;
+}
+.role {
+  color: #0f0;
+}
+
+.role::first-letter {
+  text-transform: uppercase;
+}
+
+.message-box {
+  max-width: 95%;
+  padding: 0.4rem 0.8rem;
+
+  background: rgba(0, 255, 0, 0.05);
+  animation: fadeIn 0.3s ease forwards;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.message-box p:first-child {
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+.message-box p:last-child {
+  white-space: pre-wrap;
+}
+
+.message-left {
+  margin-right: auto;
+  text-align: left;
+  color: #ff00ff;
+  border-left: 3px solid #0f0;
+}
+.message-right {
+  margin-left: auto;
+  text-align: right;
+  border-right: 3px solid #0f0;
+  color: #00ffff;
+}
+
+.message-box a {
+  color: #0f0;
+  text-decoration: underline;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
+}
+.message-box a:hover {
+  color: #1fff8a;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 1);
+}
+
+.message-input {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #0f0;
+  background: #000;
+  padding: 0.5rem;
+}
+
+/* input row inside the bar */
+.input-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  margin: 0; /* no extra vertical space in the bar */
+  width: 100%;
+  min-width: 0; /* allow flex child to shrink if needed */
+}
+
+/* prompt label */
+.input-field > label {
+  font-weight: 700;
+  color: #0f0;
+  user-select: none;
+  opacity: 0.9;
+}
+
+/* rely on global .t-input, just add sane fallbacks for the chat bar */
+.input-field .t-input {
+  /* fallback width if JS init hasn’t run yet */
+  --chars: 14;
+  min-width: 1ch;
+  max-width: 100%;
+}
+
+/* (keep your existing .message-input container styles) */
+
+.send-btn {
+  margin-left: 0.5rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid #0f0;
+  background: transparent;
+  color: #0f0;
+  font-family: monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.send-btn:hover {
+  background-color: rgba(0, 255, 0, 0.1);
+  box-shadow: 0 0 5px #0f0;
+}
+
+@media (max-width: 768px) {
+  .chat-screen {
+    left: 1rem;
+    right: 1rem;
+  }
+  .buttons {
+    padding-right: 1rem;
+  }
+}
+
+.send-btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
