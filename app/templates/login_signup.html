@@ -39,10 +39,20 @@
     <div id="error-output"></div>
 
     <button id="login-btn" class="btn-term" type="submit">
-      Login <span class="material-symbols-outlined"> login </span>
+      {%if showSignup %} Login
+      <span class="material-symbols-outlined"> login </span> {%else%} Signup
+      {%endif%}
     </button>
-
-    {%if showSignup %}
+    {%if not showSignup%}
+    <button
+      id="login-btn"
+      class="btn-term back-btn"
+      formmethod="get"
+      formaction="/auth/login"
+    >
+      Back
+    </button>
+    {%endif%} {%if showSignup %}
     <p class="signup-text">New? <a href="/auth/signup">SignUp</a></p>
     {%endif%}
   </div>

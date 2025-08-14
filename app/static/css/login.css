@@ -46,13 +46,6 @@
   white-space: nowrap;
 }
 
-/* t-input styles are global in index.css now */
-
-#login-btn {
-  /* now uses .btn-term base from index.css */
-  /* Optional per-page overrides, if any */
-}
-
 .signup-text {
   margin-top: 0.75rem;
   font-size: 1rem;

@@ -13,6 +13,13 @@
       <span class="material-symbols-outlined"> arrow_back </span>
     </button>
     <h2>$Setup Your Agent</h2>
+    <p class="success-message">
+      {%if not errors%} Config Saved Successfully!
+      <span class="material-symbols-outlined"> check_circle </span> {%else%}
+      Save Failed, Try again!
+      <span class="material-symbols-outlined">cancel</span>
+      {%endif%}
+    </p>
     <div class="input-area">
       <label for="role-input">>>>Name</label>
       <input

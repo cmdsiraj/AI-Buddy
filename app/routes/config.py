@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from pydantic import ValidationError
 from .. import schemas, database, deps, models
 from sqlalchemy.orm import Session
+from ..utils.history_utils import _clear_history
 
 config_router = APIRouter()
 
@@ -74,5 +75,7 @@ def config(request: Request,
         db.add(config)
     db.commit()
     db.refresh(config)
+
+    _clear_history(request)
 
     return RedirectResponse("/config", status_code=303)

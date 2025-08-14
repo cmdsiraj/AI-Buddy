@@ -22,3 +22,14 @@ messagesView.scrollTo({
 console.log(messagesView.innerHTML);
 
 requestAnimationFrame(() => focusFirstField());
+
+document.getElementById("chat-form").addEventListener("submit", function () {
+  const btn = document.getElementById("send-btn");
+  const sendText = document.getElementById("send-text");
+  const loader = document.getElementById("message-loader");
+
+  // Show loader, hide text, disable button
+  btn.disabled = true;
+  sendText.style.display = "none";
+  loader.classList.remove("hidden");
+});

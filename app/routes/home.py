@@ -6,29 +6,31 @@ from copy import deepcopy
 from ..utils.html_bleach import sanitize_html
 from .. import schemas, models, database
 from sqlalchemy.orm import Session
+from ..utils.history_utils import _clear_history, _history, _save_chat
 
 home_router = APIRouter()
 
-def _history(request: Request) -> list[dict]:
-    return request.session.setdefault("chat_history", [])
 
-def _save_chat(request: Request, history):
-     request.session["chat_history"] = history
-
-def _clear_history(request: Request):
-    request.session.pop("chat_history", None)
 
 
 @home_router.get("/chat", response_class=HTMLResponse)
-def chat_page(request: Request, username: str = Depends(current_user)):
+def chat_page(request: Request, username: str = Depends(current_user), db: Session = Depends(database.get_db)):
     template = request.app.state.templates
     history = _history(request)
+    config = (
+        db.query(models.Config.name)
+        .filter(models.Config.username.in_([username, "system"]))
+        .order_by(models.Config.username!=username)
+        .first()
+        )
     return template.TemplateResponse(
         "home.html", 
         {
             "request": request, 
             "title": "Chat",
-            "history": history
+            "history": history,
+            "agent_name": config.name,
+            "user_name": username
         })
 
 @home_router.post("/chat", response_class=HTMLResponse)
@@ -45,7 +47,8 @@ def chat_send(request: Request, message: str = Form(""), username:str = Depends(
             .first()
             )
         
-        reply = getResponse(messages=safe_histroy, config=config, user_name=username)
+        reply = getResponse(messages=safe_histroy, config=config)
+        reply = reply.replace("{{user_name}}", username)
         history.append({"role": "assistant", "content": reply})
         for msg in history:
             msg["content"] = sanitize_html(msg["content"])

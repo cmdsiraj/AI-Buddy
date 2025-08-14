@@ -11,11 +11,17 @@ auth_router = APIRouter()
 
 @auth_router.get("/login", response_class=HTMLResponse)
 def login(request: Request):
+    token = request.cookies.get("access_token")
+    if token:
+        return RedirectResponse("/home/chat", status_code=303)
     templates = request.app.state.templates
     return templates.TemplateResponse("login_signup.html", {"request": request, "title": "Login", "errors": {}, "values": {}, "showSignup": True, "action": "/auth/login"})
 
 @auth_router.get("/signup", response_class=HTMLResponse)
 def signup(request: Request):
+    token = request.cookies.get("access_token")
+    if token:
+        return RedirectResponse("/home/chat", status_code=303)
     templates = request.app.state.templates
     return templates.TemplateResponse("login_signup.html", {"request": request, "title": "Signup", "errors": {}, "values": {}, "showSignup": False, "action": "/auth/signup"})
 

@@ -14,7 +14,7 @@ from typing import List
 CURRENT_NEW_MESSAGE = "[NEW_MESSAGE]"
 PREVIOUS_CONVERSATION_MESSAGE = "[PREVIOUS_MESSAGES]"
 
-def getResponse(messages, config: schemas.AgentConfig = None, user_name: str=""):
+def getResponse(messages, config: schemas.AgentConfig = None):
 
     llm = GeminiLLM(model_name="gemini-2.5-flash")
    
@@ -22,8 +22,7 @@ def getResponse(messages, config: schemas.AgentConfig = None, user_name: str="")
     for convo in messages[:-1]:
         convo["content"] = f"{PREVIOUS_CONVERSATION_MESSAGE} {convo['content']}"
     
-    suffix = f"User: {user_name}: " if user_name else "" 
-    messages[-1]["content"] = f"{suffix}{CURRENT_NEW_MESSAGE} {messages[-1]['content']}"
+    messages[-1]["content"] = f"{CURRENT_NEW_MESSAGE} {messages[-1]['content']}"
 
     if len(messages)>1:
         chat_history = messages[:-1]
@@ -51,7 +50,8 @@ def getResponse(messages, config: schemas.AgentConfig = None, user_name: str="")
         llm=llm,
         tools=[SerperTool(show_tool_call=True), ScraperTool(show_tool_call=True), PdfHandlerTool(show_tool_call=True)],
         timeout=2,
-        chat_history=chat_history
+        chat_history=chat_history,
+        max_chat_history=10
     )
 
     response = model.chat(curr_user_message)

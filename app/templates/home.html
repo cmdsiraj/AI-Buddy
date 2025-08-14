@@ -34,12 +34,20 @@
       <div
         class="message-box {%if message.role=='user'%}message-right{%endif%}"
       >
-        <p class="role">{{message.role}}</p>
+        <p class="role">
+          {% if message.role=='user'%} {{user_name}} {%else%} {{agent_name}}
+          ({{message.role}}) {%endif%}
+        </p>
         <p class="content">{{message.content | safe}}</p>
       </div>
       {%endfor%}
     </div>
-    <form class="message-input" method="post" action="/home/chat">
+    <form
+      id="chat-form"
+      class="message-input"
+      method="post"
+      action="/home/chat"
+    >
       <div class="input-field">
         <label>>>></label>
         <input
@@ -51,7 +59,7 @@
         />
       </div>
       <button class="send-btn" id="send-btn">
-        Send!
+        <span id="send-text">Send!</span>
         <span id="message-loader" class="message-loader hidden">
           <div class="message-dot"></div>
           <div class="message-dot"></div>
