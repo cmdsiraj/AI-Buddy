@@ -27,7 +27,7 @@ def config(request: Request, username: str = Depends(deps.current_user), db: Ses
             }
     else:
         values = {}
-    return templates.TemplateResponse("config.html", {"request": request, "title": "AgentConfig", "values": values, "errors": {}})
+    return templates.TemplateResponse("config.html", {"request": request, "title": "AgentConfig", "values": values, "errors": {}, "showError": False})
 
 
 @config_router.post("/save", response_class=HTMLResponse)
@@ -49,7 +49,8 @@ def config(request: Request,
             {
                 "request": request, 
                 "title": 'AgentConfig', 
-                "errors": errors, 
+                "errors": errors,
+                "showError": True,
                 "values": {
                     "name": name, 
                     "role": role,
