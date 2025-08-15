@@ -13,10 +13,10 @@ home_router = APIRouter()
 
 
 
-@home_router.get("/chat", response_class=HTMLResponse)
+@home_router.get("/chat", name="chat_get", response_class=HTMLResponse)
 def chat_page(request: Request, username: str = Depends(current_user), db: Session = Depends(database.get_db)):
     template = request.app.state.templates
-    history = _history(request)
+    history = _history(db, username)
     config = (
         db.query(models.Config.name)
         .filter(models.Config.username.in_([username, "system"]))
@@ -33,9 +33,9 @@ def chat_page(request: Request, username: str = Depends(current_user), db: Sessi
             "user_name": username
         })
 
-@home_router.post("/chat", response_class=HTMLResponse)
+@home_router.post("/chat", name="chat_post", response_class=HTMLResponse)
 def chat_send(request: Request, message: str = Form(""), username:str = Depends(current_user), db: Session = Depends(database.get_db)):
-    history = _history(request)
+    history = _history(db, username)
     msg = message.strip()
     if msg:
         history.append({"role": "user", "content": msg})
@@ -49,15 +49,16 @@ def chat_send(request: Request, message: str = Form(""), username:str = Depends(
         
         reply = getResponse(messages=safe_histroy, config=config)
         reply = reply.replace("{{user_name}}", username)
-        history.append({"role": "assistant", "content": reply})
-        for msg in history:
-            msg["content"] = sanitize_html(msg["content"])
-        _save_chat(request, history)
+        history.append({"role": "assistant", "content": sanitize_html(reply)})
+      
+        _save_chat(db,username, history)
         
     
     return RedirectResponse(url="/home/chat", status_code=303)
 
-@home_router.post("/clear_chat", response_class=HTMLResponse)
-def clear_chat(request: Request, username: str = Depends(current_user)):
-    _clear_history(request)
+@home_router.post("/clear_chat", name="clear_chat", response_class=HTMLResponse)
+def clear_chat(request: Request, username: str = Depends(current_user), db: Session = Depends(database.get_db)):
+    
+    _clear_history(db, username)
+   
     return RedirectResponse("/home/chat", status_code=303)

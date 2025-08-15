@@ -55,4 +55,5 @@ def getResponse(messages, config: schemas.AgentConfig = None):
     )
 
     response = model.chat(curr_user_message)
+
     return response

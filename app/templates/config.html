@@ -2,13 +2,13 @@
 <link rel="stylesheet" href="{{url_for('static', path='/css/config.css')}}" />
 {%endblock%} {%block content%}
 <div class="config-page">
-  <form class="input-form" method="post" action="/config/save">
+  <form class="input-form" method="post" action="{{url_for('config_post')}}">
     <button
       class="back-btn"
       id="back-btn"
       title="Back"
       formmethod="get"
-      formaction="/home/chat"
+      formaction="{{url_for('chat_get')}}"
     >
       <span class="material-symbols-outlined"> arrow_back </span>
     </button>
@@ -53,7 +53,7 @@
         class="btn-term"
         id="cancle-btn"
         formmethod="get"
-        formaction="/home/chat"
+        formaction="{{url_for('chat_get')}}"
       >
         Cancle
       </button>

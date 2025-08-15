@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 auth_router = APIRouter()
 
 
-@auth_router.get("/login", response_class=HTMLResponse)
+@auth_router.get("/login", name="login_get", response_class=HTMLResponse)
 def login(request: Request):
     token = request.cookies.get("access_token")
     if token:
@@ -17,7 +17,7 @@ def login(request: Request):
     templates = request.app.state.templates
     return templates.TemplateResponse("login_signup.html", {"request": request, "title": "Login", "errors": {}, "values": {}, "showSignup": True, "action": "/auth/login"})
 
-@auth_router.get("/signup", response_class=HTMLResponse)
+@auth_router.get("/signup",name="signup_get", response_class=HTMLResponse)
 def signup(request: Request):
     token = request.cookies.get("access_token")
     if token:
@@ -25,7 +25,7 @@ def signup(request: Request):
     templates = request.app.state.templates
     return templates.TemplateResponse("login_signup.html", {"request": request, "title": "Signup", "errors": {}, "values": {}, "showSignup": False, "action": "/auth/signup"})
 
-@auth_router.post("/signup", response_class=HTMLResponse)
+@auth_router.post("/signup", name="signup_post" ,response_class=HTMLResponse)
 def login(request: Request, username: str = Form(""), password: str = Form(""), db: Session = Depends(database.get_db)):
     templates = request.app.state.templates
 
@@ -77,7 +77,7 @@ def login(request: Request, username: str = Form(""), password: str = Form(""), 
 
     return RedirectResponse("/auth/login", status_code=303)
 
-@auth_router.post("/login", response_class=HTMLResponse)
+@auth_router.post("/login", name="login_post", response_class=HTMLResponse)
 def login(request: Request, username: str = Form(""), password: str = Form(""), db: Session = Depends(database.get_db)):
     templates = request.app.state.templates
 
@@ -131,7 +131,7 @@ def login(request: Request, username: str = Form(""), password: str = Form(""), 
             }, 
             status_code=400)
     
-@auth_router.post("/logout")
+@auth_router.post("/logout", name="logout")
 def logout(request: Request):
     request.session.clear()
     resp = RedirectResponse(url="/", status_code=303)

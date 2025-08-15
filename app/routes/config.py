@@ -9,7 +9,7 @@ config_router = APIRouter()
 
 # name: str = Form(""), role: str = Form(""), goal: str = Form(""), backstory: str = Form("")
 
-@config_router.get("", response_class=HTMLResponse)
+@config_router.get("", name="config_get", response_class=HTMLResponse)
 def config(request: Request, username: str = Depends(deps.current_user), db: Session = Depends(database.get_db)):
     templates = request.app.state.templates
     config = (
@@ -30,7 +30,7 @@ def config(request: Request, username: str = Depends(deps.current_user), db: Ses
     return templates.TemplateResponse("config.html", {"request": request, "title": "AgentConfig", "values": values, "errors": {}, "showError": False})
 
 
-@config_router.post("/save", response_class=HTMLResponse)
+@config_router.post("/save", name="config_post" ,response_class=HTMLResponse)
 def config(request: Request, 
            name: str = Form(""), 
            role: str = Form(""), 
@@ -77,6 +77,6 @@ def config(request: Request,
     db.commit()
     db.refresh(config)
 
-    _clear_history(request)
+    _clear_history(db, username)
 
     return RedirectResponse("/config", status_code=303)
